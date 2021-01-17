@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import AllCommentsList from './AllCommentsList';
 
 const SingleNews = (props) => {
 	const [activeNewsData, setActiveNewsData] = useState({});
@@ -21,6 +22,7 @@ const SingleNews = (props) => {
 			<h2 className='ui header'>{activeNewsData && activeNewsData.content}</h2>
 			<p>{activeNewsData && activeNewsData.created_at}</p>
 			<p>{activeNewsData && activeNewsData.title}</p>
+			<AllCommentsList id={id}/>
 		</>
 	);
 };

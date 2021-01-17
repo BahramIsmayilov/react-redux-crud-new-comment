@@ -10,7 +10,7 @@ const AllCommentsList = (props) => {
 			.get(`https://react-yazi-yorum.herokuapp.com/posts/${props.id}/comments`)
 			.then((response) => setCommentsData(response.data))
 			.catch((error) => console.log(error));
-	}, []);
+	}, [props.id]);
 
 	return (
 		<div className='ui list'>

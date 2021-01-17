@@ -29,7 +29,7 @@ const AddNewComment = (props) => {
 		<>
 			<h3>Add New Comment</h3>
 			<form className='ui form' onSubmit={hansleAddComment}>
-				<div className='ui mini icon input'>
+				<div className='ui mini icon input field'>
 					<input
 						name='display_name'
 						type='text'
@@ -43,7 +43,8 @@ const AddNewComment = (props) => {
 					placeholder='add comment message...'
 					rows='3'
 					value={newComment.body}
-					onChange={handleChange}
+                    onChange={handleChange}
+                    className='field'
 				></textarea>
 				<button type='submit' className='ui inverted violet button'>
 					Send

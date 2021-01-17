@@ -15,7 +15,7 @@ const SingleNews = (props) => {
 			.catch((error) => {
 				console.log(error);
 			});
-	}, []);
+	}, [id]);
 
 	return (
 		<>

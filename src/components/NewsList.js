@@ -7,7 +7,7 @@ const NewsList = (props) => {
 			<i className='newspaper alternate outline icon'></i>
 			<div className='content'>
 				<Link to={`/posts/${props.newsData.id}`} className='header'>
-					{props.newsData.content}
+					{props.newsData.title}
 				</Link>
 				<div className='description'>{props.newsData.created_at}</div>
 			</div>

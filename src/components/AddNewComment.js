@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { api } from '../api';
+import { Link } from 'react-router-dom';
 
 const INITIAL_NEW_COMMENT_VALUE = {
 	display_name: '',
@@ -12,8 +13,8 @@ const AddNewComment = (props) => {
 
 	const hansleAddComment = (e) => {
 		e.preventDefault();
-		axios
-			.post(`https://react-yazi-yorum.herokuapp.com/posts/${props.id}/comments`, newComment)
+		api()
+			.post(`/posts/${props.id}/comments`, newComment)
 			.then((response) => {
 				props.setCommentsData([...props.commentsData, response.data]);
 				setNewComment(INITIAL_NEW_COMMENT_VALUE);
@@ -29,7 +30,8 @@ const AddNewComment = (props) => {
 		<>
 			<h3>Add New Comment</h3>
 			<form className='ui form' onSubmit={hansleAddComment}>
-				<div className='ui mini icon input field'>
+				<div className='field'>
+					<label>Comment Name</label>
 					<input
 						name='display_name'
 						type='text'
@@ -38,17 +40,25 @@ const AddNewComment = (props) => {
 						onChange={handleChange}
 					/>
 				</div>
-				<textarea
-					name='body'
-					placeholder='add comment message...'
-					rows='3'
-					value={newComment.body}
-                    onChange={handleChange}
-                    className='field'
-				></textarea>
+				<div className='field'>
+					<label>Comment Message</label>
+					<textarea
+						name='body'
+						placeholder='add comment message...'
+						rows='3'
+						value={newComment.body}
+						onChange={handleChange}
+						className='field'
+					/>
+				</div>
 				<button type='submit' className='ui inverted violet button'>
 					Send
 				</button>
+				<Link to='/'>
+					<button type='submit' className='ui inverted primary button'>
+						Back Home
+					</button>
+				</Link>
 			</form>
 		</>
 	);

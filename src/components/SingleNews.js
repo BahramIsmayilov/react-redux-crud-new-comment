@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { api } from '../api';
 import React, { useEffect, useState } from 'react';
 import AllCommentsList from './AllCommentsList';
 
@@ -7,8 +7,8 @@ const SingleNews = (props) => {
 	const { id } = props.match.params;
 
 	useEffect(() => {
-		axios
-			.get(`https://react-yazi-yorum.herokuapp.com/posts/${id}`)
+		api()
+			.get(`/posts/${id}`)
 			.then((response) => {
 				setActiveNewsData(response.data);
 			})

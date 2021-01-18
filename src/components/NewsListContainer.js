@@ -1,14 +1,15 @@
 import React from 'react';
 import NewsList from './NewsList';
-import axios from 'axios';
+import { api } from '../api';
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const NewsListContainer = (props) => {
 	const [allNews, serAllNews] = useState([]);
 
 	useEffect(() => {
-		axios
-			.get('https://react-yazi-yorum.herokuapp.com/posts')
+		api()
+			.get('/posts')
 			.then((response) => {
 				serAllNews(response.data);
 			})
@@ -17,6 +18,11 @@ const NewsListContainer = (props) => {
 
 	return (
 		<div className='ui relaxed divided list'>
+			<div className='ui segment'>
+				<Link to='/add-news'>
+					<button className='ui inverted primary button'>Add News</button>
+				</Link>
+			</div>
 			{allNews && allNews.map((item) => <NewsList newsData={item} key={item.id} />)}
 		</div>
 	);

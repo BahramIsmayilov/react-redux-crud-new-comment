@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { api } from '../api';
 import React, { useEffect, useState } from 'react';
 import AddNewComment from './AddNewComment';
 
@@ -6,8 +6,8 @@ const AllCommentsList = (props) => {
 	const [commentsData, setCommentsData] = useState([]);
 
 	useEffect(() => {
-		axios
-			.get(`https://react-yazi-yorum.herokuapp.com/posts/${props.id}/comments`)
+		api()
+			.get(`/posts/${props.id}/comments`)
 			.then((response) => setCommentsData(response.data))
 			.catch((error) => console.log(error));
 	}, [props.id]);

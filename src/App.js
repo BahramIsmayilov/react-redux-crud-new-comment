@@ -8,8 +8,9 @@ function App() {
 		<Router>
 			<div className='ui raised very padded text container segment'>
 				<Route path='/' exact component={NewsListContainer} />
-				<Route path='/posts/:id' component={SingleNews} />
+				<Route path='/posts/:id' exact component={SingleNews} />
 				<Route path='/add-news' component={AddNews} />
+				<Route path='/posts/:id/comments' component={AddNews} />
 			</div>
 		</Router>
 	);

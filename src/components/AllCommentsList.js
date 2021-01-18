@@ -30,6 +30,7 @@ const AllCommentsList = (props) => {
 			) : (
 				<h3 className='header'>No comment</h3>
 			)}
+			<div className="ui divider"></div>
 			<AddNewComment setCommentsData={setCommentsData} commentsData={commentsData} id={props.id} />
 		</div>
 	);

@@ -1,5 +1,5 @@
 import { api } from '../api';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const INITIAL_NEWS_VALUE = {
@@ -9,22 +9,35 @@ const INITIAL_NEWS_VALUE = {
 
 const AddNews = (props) => {
 	const [news, setNews] = useState(INITIAL_NEWS_VALUE);
-	console.log(props);
+	const id = props.match.params.id;
+
 	const handleChange = (e) => {
 		setNews({ ...news, [e.target.name]: e.target.value });
 	};
 
+	useEffect(() => {
+		id &&
+			api()
+				.get(`/posts/${id}`)
+				.then((response) => setNews(response.data));
+	}, []);
+
 	const handleClick = () => {
-		api()
-			.post('/posts', news)
-			.then((response) => props.history.push('/'))
-			.catch((error) => console.log(error));
+		id
+			? api()
+					.put(`/posts/${id}`, news)
+					.then((response) => props.history.push('/'))
+					.catch((error) => console.log(error))
+			: api()
+					.post('/posts', news)
+					.then((response) => props.history.push('/'))
+					.catch((error) => console.log(error));
 	};
 
 	return (
 		<>
 			<div className='ui form'>
-				<h3>Add News</h3>
+				<h3>{id ? 'Edit' : 'Add'} News</h3>
 				<div className='field'>
 					<label>News Name</label>
 					<input
@@ -45,10 +58,10 @@ const AddNews = (props) => {
 						rows='3'
 					></textarea>
 				</div>
-				<button className='ui inverted violet button' onClick={handleClick}>
-					Send
+				<button className='ui inverted green button' onClick={handleClick}>
+					{id ? 'Edit' : 'Add'}
 				</button>
-				<button className='ui inverted green button' onClick={() => setNews(INITIAL_NEWS_VALUE)}>
+				<button className='ui inverted violet button' onClick={() => setNews(INITIAL_NEWS_VALUE)}>
 					Reset
 				</button>
 				<Link to='/'>

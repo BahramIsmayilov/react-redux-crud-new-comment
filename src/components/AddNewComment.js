@@ -54,6 +54,9 @@ const AddNewComment = (props) => {
 				<button type='submit' className='ui inverted violet button'>
 					Send
 				</button>
+				<button className='ui inverted green button' onClick={()=>setNewComment(INITIAL_NEW_COMMENT_VALUE)}>
+					Reset
+				</button>
 				<Link to='/'>
 					<button type='submit' className='ui inverted primary button'>
 						Back Home

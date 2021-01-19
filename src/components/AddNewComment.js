@@ -48,7 +48,7 @@ const AddNewComment = (props) => {
 		<>
 			<h3>{props.editCemmentId ? 'Edit New Comment' : 'Add New Comment'}</h3>
 			<form className='ui form' onSubmit={hansleAddComment}>
-				<div className='field'>
+				<div className={`field ${props.editCemmentId && 'disabled'}`}>
 					<label>Comment Name</label>
 					<input
 						name='display_name'

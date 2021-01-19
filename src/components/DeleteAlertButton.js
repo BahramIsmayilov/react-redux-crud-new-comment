@@ -7,7 +7,7 @@ const DeleteAlertButton = (props) => {
 
 	const handleDelete = () => {
 		api()
-			.delete(`/posts/${props.id}`)
+			.delete(`${props.url}`)
 			.then((response) => {
 				setOpen(false);
 				props.push(props.path);

@@ -51,10 +51,10 @@ const AddNewComment = (props) => {
 						className='field'
 					/>
 				</div>
-				<button type='submit' className='ui inverted violet button'>
-					Send
+				<button type='submit' className='ui inverted green button'>
+					Add
 				</button>
-				<button className='ui inverted green button' onClick={()=>setNewComment(INITIAL_NEW_COMMENT_VALUE)}>
+				<button className='ui inverted violet button' onClick={()=>setNewComment(INITIAL_NEW_COMMENT_VALUE)}>
 					Reset
 				</button>
 				<Link to='/'>

@@ -2,11 +2,12 @@ import { api } from '../api';
 import React, { useEffect, useState } from 'react';
 import AllCommentsList from './AllCommentsList';
 import { Link } from 'react-router-dom';
+import DeleteAlertButton from './DeleteAlertButton'
 
 const SingleNews = (props) => {
 	const [activeNewsData, setActiveNewsData] = useState({});
 	const { id } = props.match.params;
-
+console.log(props);
 	useEffect(() => {
 		api()
 			.get(`/posts/${id}`)
@@ -26,7 +27,7 @@ const SingleNews = (props) => {
 			<Link to={`/posts/${id}/comments`}>
 				<button className='ui inverted green button'>Edit</button>
 			</Link>
-			<button className='ui inverted red button'>Delete</button>
+			<DeleteAlertButton id={id} path='/' push={props.history.push}/>
 			<div className='ui divider'></div>
 			<AllCommentsList id={id} />
 		</>

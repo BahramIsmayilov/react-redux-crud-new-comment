@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { api } from '../api';
 import { Link } from 'react-router-dom';
 
@@ -8,27 +8,45 @@ const INITIAL_NEW_COMMENT_VALUE = {
 };
 
 const AddNewComment = (props) => {
-	// eslint-disable-next-line no-undef
-	const [newComment, setNewComment] = useState(INITIAL_NEW_COMMENT_VALUE);
-
+	const [newComment, setNewComment] = useState(
+		props.editCemmentId ? props.editCommentData : INITIAL_NEW_COMMENT_VALUE
+	);
+	console.log(props);
 	const hansleAddComment = (e) => {
 		e.preventDefault();
-		api()
-			.post(`/posts/${props.id}/comments`, newComment)
-			.then((response) => {
-				props.setCommentsData([...props.commentsData, response.data]);
-				setNewComment(INITIAL_NEW_COMMENT_VALUE);
-			})
-			.catch((error) => console.log(error));
+		props.editCemmentId
+			? api()
+					.put(`/posts/${props.id}/comments/${props.editCemmentId}`, newComment)
+					.then((response) => {
+						props.push(props.path);
+						setNewComment(INITIAL_NEW_COMMENT_VALUE);
+						props.setEditCommentId(null);
+					})
+					.catch((error) => console.log(error))
+			: api()
+					.post(`/posts/${props.id}/comments`, newComment)
+					.then((response) => {
+						props.setCommentsData([...props.commentsData, response.data]);
+						setNewComment(INITIAL_NEW_COMMENT_VALUE);
+					})
+					.catch((error) => console.log(error));
 	};
 
 	const handleChange = (e) => {
 		setNewComment({ ...newComment, [e.target.name]: e.target.value });
 	};
+	useEffect(() => {
+		setNewComment(newComment);
+	}, [newComment]);
+	
+	useEffect(() => {
+		setNewComment(props.editCommentData);
+	}, [props.editCommentData]);
+
 
 	return (
 		<>
-			<h3>Add New Comment</h3>
+			<h3>{props.editCemmentId ? 'Edit New Comment' : 'Add New Comment'}</h3>
 			<form className='ui form' onSubmit={hansleAddComment}>
 				<div className='field'>
 					<label>Comment Name</label>
@@ -52,9 +70,9 @@ const AddNewComment = (props) => {
 					/>
 				</div>
 				<button type='submit' className='ui inverted green button'>
-					Add
+				{props.editCemmentId ? 'Edit' : 'Add'}
 				</button>
-				<button className='ui inverted violet button' onClick={()=>setNewComment(INITIAL_NEW_COMMENT_VALUE)}>
+				<button className='ui inverted violet button' onClick={() => setNewComment(INITIAL_NEW_COMMENT_VALUE)}>
 					Reset
 				</button>
 				<Link to='/'>

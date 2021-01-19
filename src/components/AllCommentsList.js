@@ -1,12 +1,18 @@
 import { api } from '../api';
 import React, { useEffect, useState } from 'react';
 import AddNewComment from './AddNewComment';
-import { Link } from 'react-router-dom';
 import DeleteAlertButton from './DeleteAlertButton';
+
+const INITIAL_EDIT_COMMENT_VALUE = {
+	display_name: '',
+	body: '',
+};
 
 const AllCommentsList = (props) => {
 	const [commentsData, setCommentsData] = useState([]);
-	console.log(props);
+	const [editCommentData, setEditCommentData] = useState(INITIAL_EDIT_COMMENT_VALUE);
+	const [editCemmentId, setEditCommentId] = useState(null);
+
 	useEffect(() => {
 		api()
 			.get(`/posts/${props.id}/comments`)
@@ -29,9 +35,18 @@ const AllCommentsList = (props) => {
 									<div className='description'>{comment.created_at}</div>
 								</div>
 								<div className='right floated right aligned six wide column'>
-									<Link to={`/posts/${comment.id}/comments`}>
-										<button className='ui inverted green button'>Edit</button>
-									</Link>
+									<button
+										className='ui inverted green button'
+										onClick={() => {
+											setEditCommentData({
+												display_name: comment.display_name,
+												body: comment.body,
+											});
+											setEditCommentId(comment.id);
+										}}
+									>
+										Edit
+									</button>
 									<DeleteAlertButton
 										path={props.path}
 										push={props.push}
@@ -46,7 +61,16 @@ const AllCommentsList = (props) => {
 				<h3 className='header'>No comment</h3>
 			)}
 			<div className='ui divider'></div>
-			<AddNewComment setCommentsData={setCommentsData} commentsData={commentsData} id={props.id} />
+			<AddNewComment
+				setCommentsData={setCommentsData}
+				commentsData={commentsData}
+				id={props.id}
+				editCommentData={editCommentData}
+				editCemmentId={editCemmentId}
+				path={props.path}
+				push={props.push}
+				setEditCommentId={setEditCommentId}
+			/>
 		</div>
 	);
 };

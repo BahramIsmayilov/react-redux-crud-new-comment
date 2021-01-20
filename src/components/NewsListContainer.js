@@ -4,7 +4,7 @@ import { api } from '../api';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-const NewsListContainer = (props) => {
+const NewsListContainer = () => {
 	const [allNews, serAllNews] = useState([]);
 
 	useEffect(() => {

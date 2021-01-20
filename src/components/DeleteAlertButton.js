@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { Button, Modal } from 'semantic-ui-react';
 import { api } from '../api';
 
 const DeleteAlertButton = (props) => {
 	const [open, setOpen] = useState(false);
+	const {push} = useHistory();
 
 	const handleDelete = () => {
 		api()
 			.delete(`${props.url}`)
 			.then((response) => {
 				setOpen(false);
-				props.push(props.path);
+				push(props.path);
 			})
 			.catch((error) => console.log(error));
 	};

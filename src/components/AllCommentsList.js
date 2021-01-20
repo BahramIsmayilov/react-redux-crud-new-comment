@@ -2,6 +2,7 @@ import { api } from '../api';
 import React, { useEffect, useState } from 'react';
 import AddNewComment from './AddNewComment';
 import DeleteAlertButton from './DeleteAlertButton';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 
 const INITIAL_EDIT_COMMENT_VALUE = {
 	display_name: '',
@@ -12,10 +13,12 @@ const AllCommentsList = (props) => {
 	const [commentsData, setCommentsData] = useState([]);
 	const [editCommentData, setEditCommentData] = useState(INITIAL_EDIT_COMMENT_VALUE);
 	const [editCemmentId, setEditCommentId] = useState(null);
+	const {id}= useParams(); 
+	const {pathname} = useLocation();
 
 	useEffect(() => {
 		api()
-			.get(`/posts/${props.id}/comments`)
+			.get(`/posts/${id}/comments`)
 			.then((response) => setCommentsData(response.data))
 			.catch((error) => console.log(error));
 	}, [props]);
@@ -48,9 +51,8 @@ const AllCommentsList = (props) => {
 										Edit
 									</button>
 									<DeleteAlertButton
-										path={props.path}
-										push={props.push}
-										url={`/posts/${props.id}/comments/${comment.id}`}
+										path={pathname}
+										url={`/posts/${id}/comments/${comment.id}`}
 									/>
 								</div>
 							</div>
@@ -64,11 +66,8 @@ const AllCommentsList = (props) => {
 			<AddNewComment
 				setCommentsData={setCommentsData}
 				commentsData={commentsData}
-				id={props.id}
 				editCommentData={editCommentData}
 				editCemmentId={editCemmentId}
-				path={props.path}
-				push={props.push}
 				setEditCommentId={setEditCommentId}
 			/>
 		</div>

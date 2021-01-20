@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { api } from '../api';
-import { Link } from 'react-router-dom';
+import { Link, useHistory, useLocation, useParams, useRouteMatch } from 'react-router-dom';
 
 const INITIAL_NEW_COMMENT_VALUE = {
 	display_name: '',
@@ -11,20 +11,24 @@ const AddNewComment = (props) => {
 	const [newComment, setNewComment] = useState(
 		props.editCemmentId ? props.editCommentData : INITIAL_NEW_COMMENT_VALUE
 	);
-	console.log(props);
+
+	const history = useHistory();
+	const { pathname } = useLocation();
+	const { id } = useParams();
+
 	const hansleAddComment = (e) => {
 		e.preventDefault();
 		props.editCemmentId
 			? api()
-					.put(`/posts/${props.id}/comments/${props.editCemmentId}`, newComment)
+					.put(`/posts/${id}/comments/${props.editCemmentId}`, newComment)
 					.then((response) => {
-						props.push(props.path);
+						history.push(pathname);
 						setNewComment(INITIAL_NEW_COMMENT_VALUE);
 						props.setEditCommentId(null);
 					})
 					.catch((error) => console.log(error))
 			: api()
-					.post(`/posts/${props.id}/comments`, newComment)
+					.post(`/posts/${id}/comments`, newComment)
 					.then((response) => {
 						props.setCommentsData([...props.commentsData, response.data]);
 						setNewComment(INITIAL_NEW_COMMENT_VALUE);
@@ -38,11 +42,10 @@ const AddNewComment = (props) => {
 	useEffect(() => {
 		setNewComment(newComment);
 	}, [newComment]);
-	
+
 	useEffect(() => {
 		setNewComment(props.editCommentData);
 	}, [props.editCommentData]);
-
 
 	return (
 		<>
@@ -70,7 +73,7 @@ const AddNewComment = (props) => {
 					/>
 				</div>
 				<button type='submit' className='ui inverted green button'>
-				{props.editCemmentId ? 'Edit' : 'Add'}
+					{props.editCemmentId ? 'Edit' : 'Add'}
 				</button>
 				<button className='ui inverted violet button' onClick={() => setNewComment(INITIAL_NEW_COMMENT_VALUE)}>
 					Reset

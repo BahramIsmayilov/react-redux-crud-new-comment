@@ -1,12 +1,12 @@
 import { api } from '../api';
 import React, { useEffect, useState } from 'react';
 import AllCommentsList from './AllCommentsList';
-import { Link } from 'react-router-dom';
+import { Link, useParams} from 'react-router-dom';
 import DeleteAlertButton from './DeleteAlertButton';
 
-const SingleNews = (props) => {
+const SingleNews = () => {
 	const [activeNewsData, setActiveNewsData] = useState({});
-	const { id } = props.match.params;
+	const { id } = useParams();
 
 	useEffect(() => {
 		api()
@@ -27,9 +27,9 @@ const SingleNews = (props) => {
 			<Link to={`/posts/${id}/comments`}>
 				<button className='ui inverted green button'>Edit</button>
 			</Link>
-			<DeleteAlertButton path='/' push={props.history.push} url={`/posts/${id}`} />
+			<DeleteAlertButton path='/' url={`/posts/${id}`} />
 			<div className='ui divider'></div>
-			<AllCommentsList id={id} push={props.history.push} path={props.match.url}/>
+			<AllCommentsList />
 		</>
 	);
 };

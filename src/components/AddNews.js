@@ -1,15 +1,16 @@
 import { api } from '../api';
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 
 const INITIAL_NEWS_VALUE = {
 	title: '',
 	content: '',
 };
 
-const AddNews = (props) => {
+const AddNews = () => {
 	const [news, setNews] = useState(INITIAL_NEWS_VALUE);
-	const id = props.match.params.id;
+	const {id} = useParams();
+	const history = useHistory();
 
 	const handleChange = (e) => {
 		setNews({ ...news, [e.target.name]: e.target.value });
@@ -26,11 +27,11 @@ const AddNews = (props) => {
 		id
 			? api()
 					.put(`/posts/${id}`, news)
-					.then((response) => props.history.push('/'))
+					.then((response) => history.push('/'))
 					.catch((error) => console.log(error))
 			: api()
 					.post('/posts', news)
-					.then((response) => props.history.push('/'))
+					.then((response) => history.push('/'))
 					.catch((error) => console.log(error));
 	};
 
